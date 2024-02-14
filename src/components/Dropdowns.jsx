@@ -1,9 +1,20 @@
 import React from "react";
 import { TextField } from "@mui/material";
 
-const Dropdowns = ({ category, variables, onChange }) => {
+const Dropdowns = ({ category, variables, onChange, setState }) => {
   const handleVariableChange = (variable, value) => {
     onChange(category, variable, value);
+    console.log(`Updating ${category}.${variable} to ${value}`);
+    setState((prevState) => ({
+      ...prevState,
+      variables: {
+        ...prevState.variables,
+        [category]: {
+          ...prevState.variables[category],
+          [variable]: value,
+        },
+      },
+    }));
   };
 
   return (

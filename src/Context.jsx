@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 const initialState = {
   selectedView: "all",
@@ -57,6 +57,51 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
+
+  // Update tableData whenever variables change
+  useEffect(() => {
+    // Your logic to update tableData based on variables goes here
+    const updatedTableData = [
+      {
+        Subject: "Hogwarts",
+        People: [
+          {
+            name: "Harry Potter",
+            description: `The ${state.variables.dynamicTable.variable0} who lived`,
+          },
+          {
+            name: "Ron Weasley",
+            description: "Best friend of Harry",
+          },
+          {
+            name: "Hermione Granger",
+            description: "Smart and reliable",
+          },
+        ],
+        House: [
+          "Hogwarts",
+          "Ravenclaw",
+          "Gryffindor",
+          "Slytherin",
+          "Hufflepuff",
+        ],
+      },
+      {
+        Subject: "Lord of the Rings",
+        People: [
+          { name: "Frodo", description: "Bearer of the One Ring" },
+          { name: "Bilbo", description: "The Hobbit" },
+          { name: "Sam", description: "Loyal Friend of Frodo" },
+        ],
+        House: ["The Fellowship"],
+      },
+    ];
+
+    setState((prevState) => ({
+      ...prevState,
+      tableData: updatedTableData,
+    }));
+  }, [state.variables]);
 
   return (
     <AppContext.Provider value={{ state, setState }}>

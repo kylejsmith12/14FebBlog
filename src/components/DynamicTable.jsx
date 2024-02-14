@@ -1,4 +1,3 @@
-// DynamicTable.jsx
 import React from "react";
 import {
   Table,
@@ -13,7 +12,7 @@ import { AppContext } from "../Context";
 
 const DynamicTable = () => {
   const { state } = React.useContext(AppContext);
-  const { tableHeaders, tableData, variables } = state;
+  const { tableHeaders, tableData } = state;
 
   return (
     <TableContainer component={Paper}>
@@ -28,16 +27,18 @@ const DynamicTable = () => {
         <TableBody>
           {tableData.map((row, rowIndex) => (
             <TableRow key={rowIndex}>
-              {Object.entries(row).map(([key, value]) => (
-                <TableCell key={key}>
-                  {Array.isArray(value)
-                    ? value.map((person, index) => (
+              {tableHeaders.map((header) => (
+                <TableCell key={header}>
+                  {header === "People"
+                    ? row[header].map((person, index) => (
                         <React.Fragment key={index}>
-                          {index > 0 && " / "}
+                          {index > 0 && ", "}
                           {`${person.name} - ${person.description}`}
                         </React.Fragment>
                       ))
-                    : value}
+                    : Array.isArray(row[header])
+                    ? row[header].join(", ")
+                    : row[header]}
                 </TableCell>
               ))}
             </TableRow>

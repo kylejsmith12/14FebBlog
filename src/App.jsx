@@ -16,6 +16,7 @@ import {
 import DocumentViewer from "./components/DocumentViewer";
 import { AppContext } from "./Context"; // Import the AppContext
 import Dropdowns from "./components/Dropdowns";
+import html2pdf from "html2pdf.js";
 
 const App = () => {
   const { state, setState } = useContext(AppContext);
@@ -37,11 +38,31 @@ const App = () => {
   };
 
   const handleExportPDF = async () => {
-    // Your logic for exporting PDF
+    const pdfOptions = {
+      margin: 10,
+      filename: "my_document.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+
+    console.log("documentDisplayRef: ", documentDisplayRef);
+    const contentElement = documentDisplayRef.current;
+    const pdfBlob = await html2pdf()
+      .from(contentElement)
+      .set(pdfOptions)
+      .outputPdf("blob");
+
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(pdfBlob);
+    downloadLink.download = pdfOptions.filename;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
   };
 
   return (
-    <Container style={{ minHeight: "100vh", padding: "20px" }}>
+    <Container style={{ minHeight: "100vh" }}>
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
@@ -92,6 +113,7 @@ const App = () => {
             category={selectedCategory}
             variables={state.variables[selectedCategory]}
             onChange={handleDropdownChange} // Pass the handleDropdownChange function
+            setState={setState} // Pass setState function here
           />
         </Grid>
         <Grid item xs={12} md={8}>
