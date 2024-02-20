@@ -6,12 +6,15 @@ import Dropdowns from "./Dropdowns";
 import DynamicTable from "./DynamicTable";
 
 const DocumentViewer = forwardRef(
-  ({ title, selectedCategory, selectedView }, ref) => {
+  (
+    { title, selectedCategory, selectedView, currentPage, setCurrentPage },
+    ref
+  ) => {
     console.log("ref: ", ref);
     const { state, setState } = useContext(AppContext);
     const { harryPotter, lordOfTheRings, dynamicTable } = state.variables;
-    const [currentPage, setCurrentPage] = useState(1);
     const totalPages = selectedView === "all" ? 2 : 1;
+
     const [updatedDynamicTable, setUpdatedDynamicTable] = useState(null);
 
     useEffect(() => {
@@ -97,7 +100,7 @@ const DocumentViewer = forwardRef(
             )} */}
             </>
           );
-        } else {
+        } else if (currentPage === 2) {
           console.log("currentPAge: ", currentPage);
           return (
             <>

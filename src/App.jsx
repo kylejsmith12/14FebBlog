@@ -1,5 +1,5 @@
 // App.jsx
-import React, { useRef, useContext } from "react";
+import React, { useRef, useContext, useState } from "react";
 import {
   Container,
   Grid,
@@ -22,6 +22,7 @@ const App = () => {
   const { state, setState } = useContext(AppContext);
   const { selectedCategory, selectedView } = state;
   const documentDisplayRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1); // Lift the state up
 
   const handleDropdownChange = (category, variable, value) => {
     setState((prevState) => ({
@@ -46,15 +47,34 @@ const App = () => {
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
     };
 
-    console.log("documentDisplayRef: ", documentDisplayRef);
-    const contentElement = documentDisplayRef.current;
-    const pdfBlob = await html2pdf()
-      .from(contentElement)
+    // Create a container element to hold the content of both pages
+    const container = document.createElement("div");
+
+    // Render the first page content
+    const firstPageContent = document.createElement("div");
+    firstPageContent.innerHTML = documentDisplayRef.current.innerHTML;
+    firstPageContent.style.height = "auto";
+    container.appendChild(firstPageContent);
+
+    // Render the second page content by setting the currentPage state to 2
+    setCurrentPage(2);
+    await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for re-render
+
+    // Render the second page content
+    const secondPageContent = document.createElement("div");
+    secondPageContent.innerHTML = documentDisplayRef.current.innerHTML;
+    secondPageContent.style.height = "auto";
+    container.appendChild(secondPageContent);
+
+    // Convert the container element to a single PDF
+    const combinedPdfBlob = await html2pdf()
+      .from(container)
       .set(pdfOptions)
       .outputPdf("blob");
 
+    // Create a download link for the combined PDF
     const downloadLink = document.createElement("a");
-    downloadLink.href = URL.createObjectURL(pdfBlob);
+    downloadLink.href = URL.createObjectURL(combinedPdfBlob);
     downloadLink.download = pdfOptions.filename;
     document.body.appendChild(downloadLink);
     downloadLink.click();
@@ -122,6 +142,8 @@ const App = () => {
             title="My Blog Document"
             selectedCategory={selectedCategory}
             selectedView={selectedView}
+            currentPage={currentPage} // Pass currentPage as a prop
+            setCurrentPage={setCurrentPage} // Pass setCurrentPage as a prop
           />
           {selectedView === "all" && (
             <Button
