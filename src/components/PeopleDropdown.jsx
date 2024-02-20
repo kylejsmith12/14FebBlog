@@ -1,0 +1,42 @@
+import React, { useContext } from "react";
+import { MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import { AppContext } from "../Context";
+
+const PeopleDropdown = ({ variables, onChange }) => {
+  const { state } = useContext(AppContext);
+
+  // Extract people names from tableData
+  const people = state.tableData.flatMap((section) =>
+    section.People.map((person) => person.name)
+  );
+
+  const handlePersonChange = (personName) => {
+    // Find the selected person's variables from the tableData
+    const selectedPerson = state.tableData
+      .flatMap((section) => section.People)
+      .find((person) => person.name === personName);
+
+    // Update the state with the selected person's variables
+    onChange("dynamicTable", selectedPerson.name, selectedPerson.description);
+  };
+
+  return (
+    <FormControl fullWidth style={{ marginBottom: "20px" }}>
+      <InputLabel id="person-select-label">Select Person</InputLabel>
+      <Select
+        labelId="person-select-label"
+        id="person-select"
+        value=""
+        onChange={(e) => handlePersonChange(e.target.value)}
+      >
+        {people.map((person) => (
+          <MenuItem key={person} value={person}>
+            {person}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
+
+export default PeopleDropdown;

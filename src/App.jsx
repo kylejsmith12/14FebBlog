@@ -17,12 +17,13 @@ import DocumentViewer from "./components/DocumentViewer";
 import { AppContext } from "./Context"; // Import the AppContext
 import Dropdowns from "./components/Dropdowns";
 import html2pdf from "html2pdf.js";
-
+import PeopleDropdown from "./components/PeopleDropdown";
 const App = () => {
   const { state, setState } = useContext(AppContext);
   const { selectedCategory, selectedView } = state;
   const documentDisplayRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1); // Lift the state up
+  const [selectedPerson, setSelectedPerson] = useState(null); // State to store the selected person
 
   const handleDropdownChange = (category, variable, value) => {
     setState((prevState) => ({
@@ -36,6 +37,10 @@ const App = () => {
       },
     }));
     console.log("Updated variables:", category, variable, value);
+  };
+
+  const handlePersonChange = (personName) => {
+    setSelectedPerson(personName);
   };
 
   const handleExportPDF = async () => {
@@ -128,6 +133,12 @@ const App = () => {
                 <MenuItem value="dynamicTable">Dynamic Table</MenuItem>
               </Select>
             </FormControl>
+          )}
+          {selectedView === "single" && selectedCategory === "dynamicTable" && (
+            <PeopleDropdown
+              variables={state.variables.dynamicTable}
+              onChange={handlePersonChange}
+            />
           )}
           <Dropdowns
             category={selectedCategory}
