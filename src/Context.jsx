@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 
-const initialState = {
+export const initialState = {
   selectedView: "all",
   selectedCategory: "harryPotter",
   variables: {
@@ -47,7 +47,16 @@ const initialState = {
         { name: "Bilbo", description: "The Hobbit" },
         { name: "Sam", description: "Loyal Friend of Frodo" },
       ],
-      House: "The Fellowship",
+      House: ["The Fellowship"],
+    },
+    {
+      Subject: "Eragon", // New section
+      People: [
+        { name: "Eragon", description: "Main character" },
+        { name: "Saphira", description: "Eragon's dragon" },
+        { name: "Brom", description: "Eragon's mentor" },
+      ],
+      House: ["Alagaësia"],
     },
   ],
   tableHeaders: ["Subject", "People", "House"],
@@ -60,7 +69,7 @@ export const AppProvider = ({ children }) => {
 
   // Update tableData whenever variables change
   useEffect(() => {
-    // Your logic to update tableData based on variables goes here
+    // Logic to update tableData based on variables goes here
     const updatedTableData = [
       {
         Subject: "Hogwarts",
@@ -94,6 +103,15 @@ export const AppProvider = ({ children }) => {
           { name: "Sam", description: "Loyal Friend of Frodo" },
         ],
         House: ["The Fellowship"],
+      },
+      {
+        Subject: "Eragon", // New section
+        People: [
+          { name: "Eragon", description: "Main character" },
+          { name: "Saphira", description: "Eragon's dragon" },
+          { name: "Brom", description: "Eragon's mentor" },
+        ],
+        House: ["Alagaësia"],
       },
     ];
 
