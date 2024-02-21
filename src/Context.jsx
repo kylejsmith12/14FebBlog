@@ -21,44 +21,93 @@ export const initialState = {
       variable3: "Hermione",
     },
   },
-  tableData: [
-    {
-      Subject: "Hogwarts",
-      People: [
-        {
-          name: "Harry Potter",
-          description: "The boy Who Lived",
-        },
-        {
-          name: "Ron Weasley",
-          description: "Best friend of Harry",
-        },
-        {
-          name: "Hermione Granger",
-          description: "Smart and reliable",
-        },
-      ],
-      House: ["Hogwarts", "Ravenclaw", "Gryffindor", "Slytherin", "Hufflepuff"],
-    },
-    {
-      Subject: "Lord of the Rings",
-      People: [
-        { name: "Frodo", description: "Bearer of the One Ring" },
-        { name: "Bilbo", description: "The Hobbit" },
-        { name: "Sam", description: "Loyal Friend of Frodo" },
-      ],
-      House: ["The Fellowship"],
-    },
-    {
-      Subject: "Eragon", // New section
-      People: [
-        { name: "Eragon", description: "Main character" },
-        { name: "Saphira", description: "Eragon's dragon" },
-        { name: "Brom", description: "Eragon's mentor" },
-      ],
-      House: ["Alagaësia"],
-    },
-  ],
+  tableData: {
+    movies: [
+      {
+        Subject: "Hogwarts",
+        People: [
+          {
+            name: "Harry Potter",
+            description: "The boy Who Lived",
+          },
+          {
+            name: "Ron Weasley",
+            description: "Best friend of Harry",
+          },
+          {
+            name: "Hermione Granger",
+            description: "Smart and reliable",
+          },
+        ],
+        House: [
+          "Hogwarts",
+          "Ravenclaw",
+          "Gryffindor",
+          "Slytherin",
+          "Hufflepuff",
+        ],
+      },
+      {
+        Subject: "Lord of the Rings",
+        People: [
+          { name: "Frodo", description: "Bearer of the One Ring" },
+          { name: "Bilbo", description: "The Hobbit" },
+          { name: "Sam", description: "Loyal Friend of Frodo" },
+        ],
+        House: ["The Fellowship"],
+      },
+    ],
+    tvShows: [
+      {
+        Subject: "Game of Thrones",
+        People: [
+          {
+            name: "Jon Snow",
+            description: "King in the North",
+          },
+          {
+            name: "Daenerys Targaryen",
+            description: "Mother of Dragons",
+          },
+          {
+            name: "Tyrion Lannister",
+            description: "The Imp",
+          },
+        ],
+        House: ["Stark", "Targaryen", "Lannister"],
+      },
+      {
+        Subject: "Breaking Bad",
+        People: [
+          {
+            name: "Walter White",
+            description: "Heisenberg",
+          },
+          {
+            name: "Jesse Pinkman",
+            description: "Yo, Mr. White!",
+          },
+        ],
+        House: ["White", "Pinkman"],
+      },
+    ],
+    music: [
+      {
+        Subject: "The Beatles",
+        People: [
+          {
+            name: "John Lennon",
+            description: "Imagine",
+          },
+          {
+            name: "Paul McCartney",
+            description: "Yesterday",
+          },
+        ],
+        House: ["Liverpool"],
+      },
+    ],
+  },
   tableHeaders: ["Subject", "People", "House"],
 };
 
