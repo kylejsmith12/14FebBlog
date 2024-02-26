@@ -25,6 +25,7 @@ export const initialState = {
     movies: [
       {
         Subject: "Harry Potter",
+        ExtraText: "Movie extra text", // Add additional string for movies
         People: [
           { name: "Harry Potter", description: "The boy Who Lived" },
           { name: "Ron Weasley", description: "Best friend of Harry" },
@@ -43,6 +44,7 @@ export const initialState = {
     tvShows: [
       {
         Subject: "Game of Thrones",
+        ExtraText: "tv show extra text", // Add additional string for movies
         People: [
           { name: "Jon Snow", description: "King in the North" },
           { name: "Daenerys Targaryen", description: "Mother of Dragons" },
@@ -55,6 +57,7 @@ export const initialState = {
     music: [
       {
         Subject: "The Beatles",
+        ExtraText: "music extratext", // Add additional string for movies
         People: [
           { name: "John Lennon", description: "Imagine" },
           { name: "Paul McCartney", description: "Yesterday" },
