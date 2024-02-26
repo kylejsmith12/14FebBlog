@@ -73,68 +73,6 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
 
-  // Update tableData whenever variables change
-  useEffect(() => {
-    // Logic to update tableData based on variables goes here
-    const updatedTableData = {
-      movies: [
-        {
-          Subject: "Harry Potter",
-          People: [
-            {
-              name: "Harry Potter",
-              description: `The ${state.variables.dynamicTable.variable0} who lived`,
-            },
-            {
-              name: "Ron Weasley",
-              description: "Best friend of Harry",
-            },
-            {
-              name: "Hermione Granger",
-              description: "Smart and reliable",
-            },
-          ],
-          House: [
-            "Hogwarts",
-            "Ravenclaw",
-            "Gryffindor",
-            "Slytherin",
-            "Hufflepuff",
-          ],
-        },
-        // Other movie objects...
-      ],
-      tvShows: [
-        {
-          Subject: "Game of Thrones",
-          People: [
-            { name: "Jon Snow", description: "King in the North" },
-            { name: "Daenerys Targaryen", description: "Mother of Dragons" },
-            { name: "Tyrion Lannister", description: "The Imp" },
-          ],
-          House: ["Stark", "Targaryen", "Lannister"],
-        },
-        // Other TV show objects...
-      ],
-      music: [
-        {
-          Subject: "The Beatles",
-          People: [
-            { name: "John Lennon", description: "Imagine" },
-            { name: "Paul McCartney", description: "Yesterday" },
-          ],
-          House: ["Liverpool"],
-        },
-        // Other music objects...
-      ],
-    };
-
-    setState((prevState) => ({
-      ...prevState,
-      tableData: updatedTableData,
-    }));
-  }, [state.variables]);
-
   return (
     <AppContext.Provider value={{ state, setState }}>
       {children}
