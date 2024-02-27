@@ -24,7 +24,6 @@ const App = () => {
   const documentDisplayRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1); // Lift the state up
   const [selectedPerson, setSelectedPerson] = useState(null); // State to store the selected person
-
   const handleDropdownChange = (category, variable, value) => {
     setState((prevState) => ({
       ...prevState,
@@ -40,8 +39,58 @@ const App = () => {
   };
 
   const handlePersonChange = (personName) => {
+    console.log("person name: ", personName);
+    setSelectedPerson(personName);
+    // Find the selected person's description from tableData
+    const selectedPersonData = Object.values(state.tableData)
+      .flatMap((category) => category.flatMap((item) => item.People))
+      .find((person) => person.name === personName);
+
+    console.log("Selected Person Data:", selectedPersonData); // Log the selected person's data
+
+    // Update the state with the selected person's description
+    setState((prevState) => ({
+      ...prevState,
+      variables: {
+        ...prevState.variables,
+        dynamicTable: {
+          ...prevState.variables.dynamicTable,
+          variable3: selectedPersonData.description,
+        },
+      },
+    }));
+
     setSelectedPerson(personName);
   };
+
+  function textDiff(paragraph1, paragraph2) {
+    const words1 = paragraph1.split(/\s+/);
+    const words2 = paragraph2.split(/\s+/);
+
+    const diffMap = new Map();
+
+    for (let i = 0; i < Math.max(words1.length, words2.length); i++) {
+      const word1 = words1[i];
+      const word2 = words2[i];
+
+      if (word1 !== word2) {
+        diffMap.set(i, {
+          previousWord: word1 || null,
+          newWord: word2 || null,
+          position: i,
+        });
+      }
+    }
+
+    return diffMap;
+  }
+
+  // Example usage:
+  const paragraph1 = "11 12 13 13131";
+  const paragraph2 = "11 13 40 131312";
+
+  const differences = textDiff(paragraph1, paragraph2);
+  console.log("Differences:", differences);
 
   const handleExportPDF = async () => {
     const pdfOptions = {
@@ -172,6 +221,7 @@ const App = () => {
         <Button variant="contained" color="primary">
           Save
         </Button>
+        <Button onClick={() => textDiff(paragraph1, paragraph2)}>test</Button>
       </Toolbar>
     </Container>
   );

@@ -48,8 +48,9 @@ const DynamicTable = () => {
                         {header === "People"
                           ? row[header].map((person, index) => (
                               <React.Fragment key={index}>
-                                {index > 0 && ", "}
-                                {`${person.name} - ${person.description}`}
+                                <strong>{person.name}</strong>
+                                {`- ${person.description}`}
+                                <br />
                               </React.Fragment>
                             ))
                           : Array.isArray(row[header])
