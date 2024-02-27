@@ -5,15 +5,15 @@ import { AppContext } from "../Context";
 const PeopleDropdown = ({ variables, onChange }) => {
   const { state } = useContext(AppContext);
 
-  // Extract people names from tableData
-  const people = state.tableData.flatMap((section) =>
-    section.People.map((person) => person.name)
-  );
+  // Extract people names from each category in tableData
+  const people = Object.values(state.tableData)
+    .map((category) => category.flatMap((item) => item.People))
+    .flatMap((people) => people.map((person) => person.name));
 
   const handlePersonChange = (personName) => {
-    // Find the selected person's variables from the tableData
-    const selectedPerson = state.tableData
-      .flatMap((section) => section.People)
+    // Find the selected person's variables from tableData
+    const selectedPerson = Object.values(state.tableData)
+      .flatMap((category) => category.flatMap((item) => item.People))
       .find((person) => person.name === personName);
 
     // Update the state with the selected person's variables

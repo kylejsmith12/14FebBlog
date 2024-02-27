@@ -14,6 +14,9 @@ const DynamicTable = () => {
   const { state } = React.useContext(AppContext);
   const { tableHeaders, tableData } = state;
 
+  // Convert tableData into an array of entries for easier mapping
+  const tableDataArray = Object.entries(tableData);
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -25,7 +28,7 @@ const DynamicTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.entries(tableData).map(([category, data]) => (
+          {tableDataArray.map(([category, data]) => (
             <React.Fragment key={category}>
               {data.map((row, rowIndex) => (
                 <React.Fragment key={rowIndex}>
@@ -35,7 +38,7 @@ const DynamicTable = () => {
                       <h2>{category}</h2>
                     </TableCell>
                     {/* Render the extraText in the third column */}
-                    <TableCell>{state.extraText[category]}</TableCell>
+                    <TableCell>{row.ExtraText}</TableCell>
                   </TableRow>
 
                   <TableRow>
