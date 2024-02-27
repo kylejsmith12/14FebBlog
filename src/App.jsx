@@ -135,6 +135,58 @@ const App = () => {
     document.body.removeChild(downloadLink);
   };
 
+  const handleAddParagraph = () => {
+    // Get the current paragraph text for the selected category
+    const currentParagraphJSX = state.paragraphs[selectedCategory];
+
+    // Extract text content from JSX element
+    const currentParagraphText = extractTextFromJSX(currentParagraphJSX);
+    console.log("current: ", currentParagraphText);
+    // If currentParagraphText is undefined or null, initialize it as an empty string
+    const newSentenceText = "New sentence text"; // Set the new sentence text here
+
+    // Append the new sentence text to the current paragraph text
+    const updatedParagraphText = `${
+      currentParagraphText || ""
+    } ${newSentenceText}`;
+    console.log("updatedParagraph: ", updatedParagraphText);
+    // Get the number of existing variables for the selected category
+    const existingVariableCount =
+      Object.keys(state.variables[selectedCategory]).length + 1;
+
+    // Generate the key for the new variable
+    const newVariableKey = `variable${existingVariableCount + 1}`;
+
+    // Update the paragraphs and variables directly in the state
+    setState((prevState) => ({
+      ...prevState,
+      paragraphs: {
+        ...prevState.paragraphs,
+        [selectedCategory]: updatedParagraphText,
+      },
+      variables: {
+        ...prevState.variables,
+        [selectedCategory]: {
+          ...prevState.variables[selectedCategory],
+          [newVariableKey]: newSentenceText,
+        },
+      },
+    }));
+  };
+
+  // Helper function to extract text content from JSX element
+  const extractTextFromJSX = (jsxElement) => {
+    if (!jsxElement) return ""; // Return an empty string if jsxElement is null or undefined
+    if (typeof jsxElement === "string") return jsxElement; // If jsxElement is already a string, return it directly
+    if (Array.isArray(jsxElement)) {
+      return jsxElement.map((child) => extractTextFromJSX(child)).join(""); // Recursively extract text from child elements
+    }
+    if (jsxElement.props && jsxElement.props.children) {
+      return extractTextFromJSX(jsxElement.props.children); // Extract text from props.children
+    }
+    return ""; // Return an empty string if none of the above conditions are met
+  };
+
   return (
     <Container style={{ minHeight: "100vh" }}>
       <CssBaseline />
@@ -181,6 +233,15 @@ const App = () => {
                 <MenuItem value="lordOfTheRings">Lord of the Rings</MenuItem>
                 <MenuItem value="dynamicTable">Dynamic Table</MenuItem>
               </Select>
+              {selectedCategory in state.paragraphs && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => handleAddParagraph()}
+                >
+                  Add Sentence
+                </Button>
+              )}
             </FormControl>
           )}
           {selectedView === "single" && selectedCategory === "dynamicTable" && (
