@@ -67,6 +67,11 @@ export const initialState = {
       // Other music objects...
     ],
   },
+  extraText: {
+    movies: "Movie extra text",
+    tvShows: "TV show extra text",
+    music: "Music extra text",
+  },
 
   tableHeaders: ["Subject", "People", "House"],
 };

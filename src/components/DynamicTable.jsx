@@ -35,7 +35,7 @@ const DynamicTable = () => {
                       <h2>{category}</h2>
                     </TableCell>
                     {/* Render the extraText in the third column */}
-                    <TableCell>{row.ExtraText}</TableCell>
+                    <TableCell>{state.extraText[category]}</TableCell>
                   </TableRow>
 
                   <TableRow>
